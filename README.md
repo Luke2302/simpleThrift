@@ -1,2 +1,2 @@
 # Projects
-Short projects developed during c++ "bootcamp".
+Short project developing a simple thrift server during a short introduction to c++ bootcamp.
