@@ -57,3 +57,10 @@ We want to
     clang --std=c++11 --stdlib=libc++ server.cpp -I/usr/local/include/thrift gen-cpp/hello_types.cpp gen-cpp/helloService.cpp -L/usr/local/lib/pkgconfig -lthrift -oserver
     ->ld: symbol(s) not found for architecture x86_64
     ->clang: error: linker command failed with exit code 1
+
+    Trying with int type macro
+        -DHAVE_INTTYPES_H
+
+        clang --std=c++11 --stdlib=libc++ -DHAVE_INTTYPES_H server.cpp -I/usr/local/include/thrift gen-cpp/hello_types.cpp gen-cpp/helloService.cpp -L/usr/local/lib/pkgconfig -lthrift -oserver
+
+
