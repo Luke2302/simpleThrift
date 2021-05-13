@@ -1,0 +1,59 @@
+Attempted Make commands for thrift server compile
+
+Flags
+
+-o <name> -> compiles binary output  file with name : <name>
+
+-I -> adds include directory of header files 
+
+-I / -L (or is it l / L?) :
+
+    -I links with a library file
+    -L looks in directory for library file
+
+cdmeister Basic Thrift Tutorial:
+
+    clang --std=c++11 gen-cpp/hello_types.cpp gen-cpp/helloService.cpp server.cpp -o server -lthrift
+
+Attempt with capital:
+
+    clang --std=C++11 gen-cpp/hello_types.cpp gen-cpp/helloService.cpp server.cpp -o server -lthrift
+
+Looking in /usr/local/lib for thrift headers
+
+    clang --std=c++11 gen-cpp/hello_types.cpp gen-cpp/helloService.cpp server.cpp -o server -L/usr/local/lib -lthrift
+
+    clang --std=C++11 gen-cpp/hello_types.cpp gen-cpp/helloService.cpp server.cpp -o server -L/usr/local/lib -lthrift
+
+We want to
+    -Specify c++11
+    -Specify stdlib
+    -Source file (server.cpp)
+    -Object files (gen-cpp/hello_types.cpp gen-cpp/helloService.cpp)
+    -Include directory (/usr/local/include)
+    -For thrift headers
+    -Output as name : "server"
+
+    clang --std=c++11 --stdlib=libc++ server.cpp gen-cpp/hello_types.cpp gen-cpp/helloService.cpp -Lusr/local/include -Ithrift -oserver
+    -> ld: warning: directory not found for option '-Lusr/local/include'
+    -> ld: symbol(s) not found for architecture x86_64
+    -> clang: error: linker command failed with exit code 1
+
+    clang --std=c++11 --stdlib=libc++ server.cpp gen-cpp/hello_types.cpp gen-cpp/helloService.cpp -L/usr/local/include -Ithrift -oserver
+    -> ld: symbol(s) not found for architecture x86_64
+    -> clang: error: linker command failed with exit code 1
+
+We want to
+    -Specify c++11
+    -Specify stdlib
+    -Source file (server.cpp)
+    -Object files (gen-cpp/hello_types.cpp gen-cpp/helloService.cpp)
+    -Include directory (/usr/local/include/thrift)
+    -For thrift headers
+    -Look in directory (/usr/local/lib/pkgconfig)
+    -For thrift binary files
+    -Output as name : "server"
+
+    clang --std=c++11 --stdlib=libc++ server.cpp -I/usr/local/include/thrift gen-cpp/hello_types.cpp gen-cpp/helloService.cpp -L/usr/local/lib/pkgconfig -lthrift -oserver
+    ->ld: symbol(s) not found for architecture x86_64
+    ->clang: error: linker command failed with exit code 1
